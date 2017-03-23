@@ -883,7 +883,7 @@
           }
 
           //Check if keypress is a digit 
-          if (!($event.which >= 48 && $event.which <= 57) && !($event.which >= 96 && $event.which >= 105) 
+          if (!($event.which >= 48 && $event.which <= 57) && !($event.which >= 105) 
             && !($event.which == 13)) {
             $event.preventDefault();
             return;

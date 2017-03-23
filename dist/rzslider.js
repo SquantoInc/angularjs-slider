@@ -1,7 +1,7 @@
 /*! angularjs-slider - v6.1.0 - 
  (c) Rafal Zajac <rzajac@gmail.com>, Valentin Hervieu <valentin@hervieu.me>, Jussi Saarivirta <jusasi@gmail.com>, Angelin Sirbu <angelin.sirbu@gmail.com> - 
  https://github.com/angular-slider/angularjs-slider - 
- 2017-03-22 */
+ 2017-03-23 */
 /*jslint unparam: true */
 /*global angular: false, console: false, define, module */
 (function(root, factory) {
@@ -879,7 +879,7 @@
           }
 
           //Check if keypress is a digit 
-          if (!($event.which >= 48 && $event.which <= 57) && !($event.which >= 96 && $event.which >= 105) 
+          if (!($event.which >= 48 && $event.which <= 57) && !($event.which >= 105) 
             && !($event.which == 13)) {
             $event.preventDefault();
             return;
