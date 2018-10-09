@@ -862,7 +862,9 @@
             self.focusElement(self.minInp);
           }
         },
-
+	this.scope.onBlurValueChanged = function($event, which) {
+                self.scope.$emit('slideEnded');
+        },
         this.scope.hideInputBox = function($event, which) {
           var val;
           var maxLength = self.maxValue.toString().length;
