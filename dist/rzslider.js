@@ -837,21 +837,22 @@
               }),
               (this.scope.hideInputBox = function($event, which) {
                 var val;
-                var maxLength = self.maxValue.toString().length;
+                var maxLength = self.maxValue.toString().split('.')[0].length + self.precision > 0 ? 1 : 0;
 
                 if ($event.currentTarget.value == '') {
                   val = $event.currentTarget.value;
                 } else {
-                  val = parseInt($event.currentTarget.value);
+                  val = parseFloat($event.currentTarget.value).toFixed(self.precision);
                 }
 
-                if (!($event.which == 13) && val.toString().length >= maxLength) {
+                var keyCode = $event.which;
+                if (!(keyCode == 13) && val.toString().length >= maxLength) {
                   $event.preventDefault();
                   return;
                 }
 
-                //Check if keypress is a digit
-                if (!($event.which >= 48 && $event.which <= 57) && !($event.which >= 105) && !($event.which == 13)) {
+                //Check if keypress is a digit (or decimal place)
+                if (!((keyCode == 46 || keyCode >= 48) && keyCode <= 57) && !(keyCode >= 105) && !(keyCode == 13)) {
                   $event.preventDefault();
                   return;
                 }
