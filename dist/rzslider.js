@@ -837,7 +837,7 @@
               }),
               (this.scope.hideInputBox = function($event, which) {
                 var val;
-                var maxLength = self.maxValue.toString().split('.')[0].length + self.precision > 0 ? 1 : 0;
+                var maxLength = self.maxValue.toString().split('.')[0].length;
 
                 if ($event.currentTarget.value == '') {
                   val = $event.currentTarget.value;
@@ -846,7 +846,7 @@
                 }
 
                 var keyCode = $event.which;
-                if (!(keyCode == 13) && val.toString().length >= maxLength) {
+                if (!(keyCode == 13) && val.toString().split('.')[0].length >= maxLength) {
                   $event.preventDefault();
                   return;
                 }
