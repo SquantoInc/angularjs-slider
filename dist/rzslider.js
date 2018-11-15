@@ -846,7 +846,7 @@
                 }
 
                 var keyCode = $event.which;
-                if (!(keyCode == 13) && val.toString().split('.')[0].length >= maxLength) {
+                if (!(keyCode == 13) && val.toString().split('.')[0].length > maxLength) {
                   $event.preventDefault();
                   return;
                 }
