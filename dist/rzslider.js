@@ -2375,6 +2375,13 @@
               });
             }
             this.scope.$emit('slideEnded');
+          },
+          /**
+           * Get the step value for the numeric inputs embedded in the slider min/max labels
+           * @returns {number}
+           */
+          getInputStepAttribute: function() {
+            return 1 / Math.pow(10, this.precision);
           }
         };
 
