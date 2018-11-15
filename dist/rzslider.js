@@ -882,7 +882,8 @@
                     }
                   }
                 }
-              });
+              }),
+              (this.scope.getInputStepAttribute = this.getInputStepAttribute);
           },
 
           updateInputWidth: function(value, which) {
@@ -2381,7 +2382,7 @@
            * @returns {number}
            */
           getInputStepAttribute: function() {
-            return 1 / Math.pow(10, this.precision);
+            return 1 / Math.pow(10, this.slider.precision);
           }
         };
 
