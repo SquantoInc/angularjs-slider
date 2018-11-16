@@ -852,6 +852,9 @@
                 if (this.rzSliderModel > self.maxValue) {
                   this.rzSliderModel = self.maxValue;
                 }
+                if (this.rzSliderHigh > self.maxValue) {
+                  this.rzSliderHigh = self.maxValue;
+                }
                 self.scope.$emit('slideEnded');
               }),
               (this.scope.hideInputBox = function($event, which) {
