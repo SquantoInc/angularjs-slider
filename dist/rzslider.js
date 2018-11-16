@@ -849,17 +849,19 @@
                 if (self.highValue > self.maxValue) {
                   self.highValue = self.maxValue;
                 }
+                if (this.rzSliderModel > self.maxValue) {
+                  this.rzSliderModel = self.maxValue;
+                }
                 self.scope.$emit('slideEnded');
               }),
               (this.scope.hideInputBox = function($event, which) {
                 var val;
-                var maxLength = self.maxValue.toString().split('.')[0].length;
                 var selection = window.getSelection();
                 console.log('offset', selection.focusOffset);
                 if ($event.currentTarget.value == '') {
                   val = $event.currentTarget.value;
                 } else {
-                  val = parseFloat($event.currentTarget.value).toFixed(self.precision);
+                  val = parseFloat(parseFloat($event.currentTarget.value).toFixed(self.precision));
                   if (val > self.maxValue) {
                     val = self.maxValue;
                   }
