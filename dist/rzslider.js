@@ -328,6 +328,11 @@
           this.cmbLabelShown = false;
 
           /**
+           *
+           */
+          this.inputBoxPattern = this.makeInputBoxPattern(this.maxValue);
+          this.scope.inputBoxPattern = this.inputBoxPattern;
+          /**
            * Internal variable to keep track of the focus element
            */
           this.currentFocusElement = null;
@@ -468,6 +473,11 @@
               }
             }
             return index;
+          },
+
+          makeInputBoxPattern: function(value) {
+            var maxLength = this.maxValue.toString().length;
+            return new RegExp('/^[0-9]{1,' + maxLength + '}(.[0-9]+)?$/');
           },
 
           syncLowValue: function() {
@@ -833,24 +843,29 @@
               }
             }),
               (this.scope.onBlurValueChanged = function($event, which) {
+                if (self.lowValue > self.maxValue) {
+                  self.lowValue = self.maxValue;
+                }
+                if (self.highValue > self.maxValue) {
+                  self.highValue = self.maxValue;
+                }
                 self.scope.$emit('slideEnded');
               }),
               (this.scope.hideInputBox = function($event, which) {
                 var val;
                 var maxLength = self.maxValue.toString().split('.')[0].length;
-
+                var selection = window.getSelection();
+                console.log('offset', selection.focusOffset);
                 if ($event.currentTarget.value == '') {
                   val = $event.currentTarget.value;
                 } else {
                   val = parseFloat($event.currentTarget.value).toFixed(self.precision);
+                  if (val > self.maxValue) {
+                    val = self.maxValue;
+                  }
                 }
 
                 var keyCode = $event.which;
-                // check if backspace, return and . are not pressed
-                if (!(keyCode == 8) && !(keyCode == 13) && !(keyCode == 46) && self.isAtMaximumWholeValue(val, maxLength)) {
-                  $event.preventDefault();
-                  return;
-                }
 
                 //Check if keypress is a digit (or decimal place)
                 if (!((keyCode == 46 || keyCode >= 48) && keyCode <= 57) && !(keyCode >= 105) && !(keyCode == 13)) {
@@ -885,18 +900,6 @@
                 }
               }),
               (this.scope.getInputStepAttribute = this.getInputStepAttribute);
-          },
-          /**
-           * Disallows entering more than the maximum value's number of digits
-           * The exception to this is adding digits after a decimal.
-           * @returns {boolean}
-           * @param {string|number} val
-           * @param {number} maxLength
-           */
-          isAtMaximumWholeValue: function(val, maxLength) {
-            if (val.indexOf('.') === -1) return val.toString().length >= maxLength;
-
-            return new RegExp('/[0-9]{' + maxLength + '}(.[0-9]+)?$/').test(val);
           },
           updateInputWidth: function(value, which) {
             var numberOfDigits = value.toString().length;
