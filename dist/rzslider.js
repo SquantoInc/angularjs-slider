@@ -846,7 +846,7 @@
                 }
 
                 var keyCode = $event.which;
-                if (!(keyCode == 13) && !(keyCode == 46) && this.maximumLengthIsNotExceeded(val, maxLength, $event)) {
+                if (!(keyCode == 13) && !(keyCode == 46) && self.maximumLengthIsNotExceeded(val, maxLength, $event)) {
                   $event.preventDefault();
                   return;
                 }
