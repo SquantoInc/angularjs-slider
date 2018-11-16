@@ -846,7 +846,7 @@
                 }
 
                 var keyCode = $event.which;
-                if (!(keyCode == 13) && val.toString().split('.')[0].length > maxLength) {
+                if (!(keyCode == 13) && !(keyCode == 46) && this.maximumLengthIsNotExceeded(val, maxLength, $event)) {
                   $event.preventDefault();
                   return;
                 }
@@ -885,7 +885,28 @@
               }),
               (this.scope.getInputStepAttribute = this.getInputStepAttribute);
           },
+          /**
+           * Disallows entering more than the maximum value's number of digits
+           * The exception to this is adding digits after a decimal.
+           * @returns {boolean}
+           * @param {string|number} val
+           * @param {number} maxLength
+           * @param {Event} $event
+           */
+          maximumLengthIsNotExceeded: function(val, maxLength, $event) {
+            var selectionStart = $event.currentTarget.selectionStart,
+              decimalIndex = val.indexOf('.');
 
+            if (decimalIndex > -1) {
+              return val.toString().length >= maxLength;
+            } else {
+              var components = val.toString().split('.');
+              if (selectionStart > dotIndex) {
+                return false;
+              }
+              return components[0].length >= maxLength;
+            }
+          },
           updateInputWidth: function(value, which) {
             var numberOfDigits = value.toString().length;
             var widthMultiplier;
