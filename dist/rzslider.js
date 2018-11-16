@@ -846,7 +846,8 @@
                 }
 
                 var keyCode = $event.which;
-                if (!(keyCode == 13) && !(keyCode == 46) && self.maximumLengthIsNotExceeded(val, maxLength, $event)) {
+                // check if backspace, return and . are not pressed
+                if (!(keyCode == 8) && !(keyCode == 13) && !(keyCode == 46) && self.isAtMaximumWholeValue(val, maxLength)) {
                   $event.preventDefault();
                   return;
                 }
@@ -891,21 +892,11 @@
            * @returns {boolean}
            * @param {string|number} val
            * @param {number} maxLength
-           * @param {Event} $event
            */
-          maximumLengthIsNotExceeded: function(val, maxLength, $event) {
-            var selectionStart = $event.currentTarget.selectionStart,
-              decimalIndex = val.indexOf('.');
+          isAtMaximumWholeValue: function(val, maxLength) {
+            if (val.indexOf('.') === -1) return val.toString().length >= maxLength;
 
-            if (decimalIndex > -1) {
-              return val.toString().length >= maxLength;
-            } else {
-              var components = val.toString().split('.');
-              if (selectionStart > dotIndex) {
-                return false;
-              }
-              return components[0].length >= maxLength;
-            }
+            return new RegExp('/[0-9]{' + maxLength + '}(.[0-9]+)?$/').test(val);
           },
           updateInputWidth: function(value, which) {
             var numberOfDigits = value.toString().length;
